@@ -16,29 +16,30 @@ public class Differ {
         Set<String> keySet = new TreeSet<>(map1.keySet());
         keySet.addAll(map2.keySet());
 
-        return diff(map1, map2, keySet);
-    }
-
-    public static String diff(Map<String, Object> map1, Map<String, Object> map2, Set<String> keySet) {
-        StringBuilder result = new StringBuilder("{\n");
-
+        String result = "{\n";
         for (String key : keySet) {
             if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result.append("  + ").append(key).append(": ").append(map2.get(key)).append("\n");
+                result = result + buildString("  + ", key, map2.get(key).toString());
             } else if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result.append("  - ").append(key).append(": ").append(map1.get(key)).append("\n");
+                result = result + buildString("  - ", key, map1.get(key).toString());
             } else if (map1.containsKey(key) && map2.containsKey(key)) {
                 if (map1.get(key).equals(map2.get(key))) {
-                    result.append("    ").append(key).append(": ").append(map1.get(key)).append("\n");
+                    result = result + buildString("    ", key, map1.get(key).toString());
                 } else {
-                    result.append("  - ").append(key).append(": ").append(map1.get(key)).append("\n");
-                    result.append("  + ").append(key).append(": ").append(map2.get(key)).append("\n");
+                    result = result + buildString("  - ", key, map1.get(key).toString());
+                    result = result + buildString("  + ", key, map2.get(key).toString());
                 }
             }
         }
-        result.append("}");
+        result = result + "}";
 
         return result.toString();
+    }
+
+    public static String buildString(String sign, String str1, String str2) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(sign).append(str1).append(": ").append(str2).append("\n");
+        return builder.toString();
     }
 
 }
