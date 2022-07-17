@@ -16,30 +16,28 @@ public class Differ {
         Set<String> keySet = new TreeSet<>(map1.keySet());
         keySet.addAll(map2.keySet());
 
-        String result = "{\n";
+        StringBuilder result = new StringBuilder("{\n");
         for (String key : keySet) {
             if (!map1.containsKey(key) && map2.containsKey(key)) {
-                result = result + buildString("  + ", key, map2.get(key).toString());
+                result.append(buildString("  + ", key, map2.get(key).toString()));
             } else if (map1.containsKey(key) && !map2.containsKey(key)) {
-                result = result + buildString("  - ", key, map1.get(key).toString());
+                result.append(buildString("  - ", key, map1.get(key).toString()));
             } else if (map1.containsKey(key) && map2.containsKey(key)) {
                 if (map1.get(key).equals(map2.get(key))) {
-                    result = result + buildString("    ", key, map1.get(key).toString());
+                    result.append(buildString("    ", key, map1.get(key).toString()));
                 } else {
-                    result = result + buildString("  - ", key, map1.get(key).toString());
-                    result = result + buildString("  + ", key, map2.get(key).toString());
+                    result.append(buildString("  - ", key, map1.get(key).toString()));
+                    result.append(buildString("  + ", key, map2.get(key).toString()));
                 }
             }
         }
-        result = result + "}";
+        result.append("}");
 
-        return result.toString();
+        return result.toString().toString();
     }
 
     public static String buildString(String sign, String str1, String str2) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(sign).append(str1).append(": ").append(str2).append("\n");
-        return builder.toString();
+        return sign + str1 + ": " + str2 + "\n";
     }
 
 }
