@@ -9,5 +9,9 @@ build:
 
 run:
 		./gradlew run
+
 report:
 		./gradlew jacocoTestReport
+
+checkstyle:
+		./gradlew checkstyleMain checkstyleTest
