@@ -14,7 +14,7 @@ public class Parser {
         String ext = FilenameUtils.getExtension(path);
         Map<K, V> result = new HashMap<>();
         if (ext.equals("json")) {
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
             result = mapper.readValue(new File(path), new TypeReference<>() { });
         } else if (ext.equals("yml")) {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());

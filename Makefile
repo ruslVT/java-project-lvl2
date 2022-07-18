@@ -4,14 +4,19 @@ run-dist:
 install:
 		./gradlew clean install
 
-build:
-		./gradlew clean build
-
 run:
 		./gradlew run
 
 report:
 		./gradlew jacocoTestReport
 
-checkstyle:
+lint:
 		./gradlew checkstyleMain checkstyleTest
+
+test:
+		./gradlew test
+
+.PHONY: build
+
+build:
+		./gradlew build
