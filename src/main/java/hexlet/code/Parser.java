@@ -10,15 +10,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Parser {
-    public static <K, V> Map<K, V> parser(String path) throws Exception {
+    public static Map<String, Object> parser(String path) throws Exception {
         String ext = FilenameUtils.getExtension(path);
-        Map<K, V> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
+
         if (ext.equals("json")) {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            result = mapper.readValue(new File(path), new TypeReference<>() { });
+            result = new ObjectMapper().readValue(new File(path), new TypeReference<>() { });
         } else if (ext.equals("yml")) {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            result = mapper.readValue(new File(path), new TypeReference<>() { });
+            result = new ObjectMapper(new YAMLFactory()).readValue(new File(path), new TypeReference<>() { });
         }
 
         return result;
