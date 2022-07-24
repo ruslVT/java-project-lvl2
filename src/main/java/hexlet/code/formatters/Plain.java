@@ -18,8 +18,8 @@ public class Plain {
                 result.append("Property '").append(map.getKey()).append("' was removed").append("\n");
             } else if (map.getValue().get(0).equals("was updated")) {
                 result.append("Property '").append(map.getKey()).append("' was updated. From ")
-                        .append(printValue(map.getValue().get(1))).append(" to ")
-                        .append(printValue(map.getValue().get(2))).append("\n");
+                        .append(printValue(map.getValue().get(2))).append(" to ")
+                        .append(printValue(map.getValue().get(1))).append("\n");
             }
         }
 

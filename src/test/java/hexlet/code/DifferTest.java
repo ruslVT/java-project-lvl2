@@ -48,10 +48,15 @@ public class DifferTest {
             + "Property 'setting2' was updated. From 200 to 300\n"
             + "Property 'setting3' was updated. From true to 'none'";
 
+    private String expectedJson = "{\"chars1\":[\"a\",\"b\",\"c\"],\"chars2\":false,\"checked\":true,"
+            + "\"default\":[\"value1\",\"value2\"],\"id\":null,\"key2\":\"value2\",\"numbers1\":[1,2,3,4],"
+            + "\"numbers2\":[22,33,44,55],\"numbers4\":[4,5,6],\"obj1\":{\"nestedKey\":\"value\","
+            + "\"isNested\":true},\"setting1\":\"Another value\",\"setting2\":300,\"setting3\":\"none\"}";
+
     @Test
     public void testGenerate() throws Exception {
 
-        // Stylish
+        // Stylish format
         String actual1 = Differ.generate("./src/test/resources/file3.json",
                 "./src/test/resources/file4.json", "stylish");
         String expected1 = expectedStylish;
@@ -67,7 +72,7 @@ public class DifferTest {
         String expected3 = expectedStylish;
         assertThat(actual3).isEqualTo(expected3);
 
-        // Plain
+        // Plain format
         String actual4 = Differ.generate("./src/test/resources/file3.json",
                 "./src/test/resources/file4.json", "plain");
         String expected4 = expectedPlain;
@@ -83,6 +88,22 @@ public class DifferTest {
         String expected6 = expectedPlain;
         assertThat(actual6).isEqualTo(expected6);
 
+        // Json format
+        String actual7 = Differ.generate("./src/test/resources/file3.json",
+                "./src/test/resources/file4.json", "json");
+        String expected7 = expectedJson;
+        assertThat(actual7).isEqualTo(expected7);
+
+        String actual8 = Differ.generate("./src/test/resources/file3.yml",
+                "./src/test/resources/file4.yml", "json");
+        String expected8 = expectedJson;
+        assertThat(actual8).isEqualTo(expected8);
+
+        String actual9 = Differ.generate("./src/test/resources/file3.json",
+                "./src/test/resources/file4.yml", "json");
+        String expected9 = expectedJson;
+        assertThat(actual9).isEqualTo(expected9);
+
         // assert with empty file
         assertThrows(MismatchedInputException.class, () -> {
             String str1 = Differ.generate("./src/test/resources/file3.json",
@@ -95,10 +116,10 @@ public class DifferTest {
         });
 
         // Incorrect format
-        String actual7 = Differ.generate("./src/test/resources/file3.json",
+        String actual10 = Differ.generate("./src/test/resources/file3.json",
                 "./src/test/resources/file4.json", "other");
-        String expected7 = "Incorrect format";
-        assertThat(actual7).isEqualTo(expected7);
+        String expected10 = "Incorrect format";
+        assertThat(actual10).isEqualTo(expected10);
     }
 
 }
