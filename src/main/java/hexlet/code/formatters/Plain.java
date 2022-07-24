@@ -28,12 +28,10 @@ public class Plain {
 
     public static Object printValue(Object obj) {
 
-        if (obj == null) {
-            return "null";
+        if (obj == null || obj instanceof Integer || obj instanceof Boolean) {
+            return obj;
         } else if (obj instanceof ArrayList || obj instanceof LinkedHashMap) {
             return new String("[complex value]");
-        } else if (obj instanceof Integer || obj instanceof Boolean) {
-            return obj;
         } else {
             return new String("'" + obj + "'");
         }
