@@ -23,11 +23,11 @@ public class Differ {
             } else if (map1.containsKey(key) && !map2.containsKey(key)) {
                 diffList.put(key, Arrays.asList("removed", map1.get(key)));
             } else if ((map1.get(key) == null && map2.get(key) == null)) {
-                diffList.put(key, Arrays.asList(" ", map1.get(key)));
+                diffList.put(key, Arrays.asList("unchanged", map1.get(key)));
             } else if ((map1.get(key) == null || map2.get(key) == null)) {
                 diffList.put(key, Arrays.asList("was updated", map2.get(key), map1.get(key)));
             } else if (map1.get(key).equals(map2.get(key))) {
-                diffList.put(key, Arrays.asList(" ", map1.get(key)));
+                diffList.put(key, Arrays.asList("unchanged", map1.get(key)));
             } else {
                 diffList.put(key, Arrays.asList("was updated", map2.get(key), map1.get(key)));
             }

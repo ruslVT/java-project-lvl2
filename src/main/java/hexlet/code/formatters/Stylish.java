@@ -17,7 +17,7 @@ public class Stylish {
                 result.append("  - ").append(entry.getKey()).append(": ").append(entry.getValue().get(2));
                 result.append("\n");
                 result.append("  + ").append(entry.getKey()).append(": ").append(entry.getValue().get(1));
-            } else if (entry.getValue().get(0).equals(" ")) {
+            } else if (entry.getValue().get(0).equals("unchanged")) {
                 result.append("    ").append(entry.getKey()).append(": ").append(entry.getValue().get(1));
             }
             result.append("\n");

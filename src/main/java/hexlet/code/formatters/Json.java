@@ -14,7 +14,7 @@ public class Json {
         for (Map.Entry<String, List<Object>> map : diffList.entrySet()) {
             if (map.getValue().get(0).equals("added")
                     || map.getValue().get(0).equals("was updated")
-                    || map.getValue().get(0).equals(" ")) {
+                    || map.getValue().get(0).equals("unchanged")) {
                 diffMap.put(map.getKey(), map.getValue().get(1));
             }
         }
