@@ -117,13 +117,13 @@ public class DifferTest {
         });
 
         // Incorrect format
-        String actual10 = Differ.generate(pathJson1, pathJson2, "other");
-        String expected10 = "Incorrect format";
-        assertThat(actual10).isEqualTo(expected10);
+        assertThrows(RuntimeException.class, () -> {
+            String str4 = Differ.generate(pathJson1, pathJson2, "other");
+        });
 
         // missing file
         assertThrows(FileNotFoundException.class, () -> {
-            String str4 = Differ.generate(pathJson1, "./src/test/resources/file.json", "stylish");
+            String str5 = Differ.generate(pathJson1, "./src/test/resources/file.json", "stylish");
         });
     }
 

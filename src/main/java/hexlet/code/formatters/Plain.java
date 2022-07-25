@@ -7,19 +7,21 @@ import java.util.Map;
 
 public class Plain {
 
-    public static String plainFormat(Map<String, List<Object>> diffList) {
+    public static String plainFormat(List<Map<String, List<Object>>> diffList) {
         StringBuilder result = new StringBuilder();
 
-        for (Map.Entry<String, List<Object>> map : diffList.entrySet()) {
-            if (map.getValue().get(0).equals("added")) {
-                result.append("Property '").append(map.getKey()).append("' was added with value: ")
-                        .append(printValue(map.getValue().get(1))).append("\n");
-            } else if (map.getValue().get(0).equals("removed")) {
-                result.append("Property '").append(map.getKey()).append("' was removed").append("\n");
-            } else if (map.getValue().get(0).equals("was updated")) {
-                result.append("Property '").append(map.getKey()).append("' was updated. From ")
-                        .append(printValue(map.getValue().get(2))).append(" to ")
-                        .append(printValue(map.getValue().get(1))).append("\n");
+        for (Map<String, List<Object>> map : diffList) {
+            for (Map.Entry<String, List<Object>> entry : map.entrySet()) {
+                if (entry.getKey().equals("added")) {
+                    result.append("Property '").append(entry.getValue().get(0)).append("' was added with value: ")
+                            .append(printValue(entry.getValue().get(1))).append("\n");
+                } else if (entry.getKey().equals("removed")) {
+                    result.append("Property '").append(entry.getValue().get(0)).append("' was removed").append("\n");
+                } else if (entry.getKey().equals("was updated")) {
+                    result.append("Property '").append(entry.getValue().get(0)).append("' was updated. From ")
+                            .append(printValue(entry.getValue().get(2))).append(" to ")
+                            .append(printValue(entry.getValue().get(1))).append("\n");
+                }
             }
         }
 

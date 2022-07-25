@@ -5,22 +5,24 @@ import java.util.Map;
 
 public class Stylish {
 
-    public static String stylishFormat(Map<String, List<Object>> diffList) {
+    public static String stylishFormat(List<Map<String, List<Object>>> diffList) {
         StringBuilder result = new StringBuilder("{\n");
 
-        for (Map.Entry<String, List<Object>> entry : diffList.entrySet()) {
-            if (entry.getValue().get(0).equals("added")) {
-                result.append("  + ").append(entry.getKey()).append(": ").append(entry.getValue().get(1));
-            } else if (entry.getValue().get(0).equals("removed")) {
-                result.append("  - ").append(entry.getKey()).append(": ").append(entry.getValue().get(1));
-            } else if (entry.getValue().get(0).equals("was updated")) {
-                result.append("  - ").append(entry.getKey()).append(": ").append(entry.getValue().get(2));
+        for (Map<String, List<Object>> map : diffList) {
+            for (Map.Entry<String, List<Object>> entry : map.entrySet()) {
+                if (entry.getKey().equals("added")) {
+                    result.append("  + ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
+                } else if (entry.getKey().equals("removed")) {
+                    result.append("  - ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
+                } else if (entry.getKey().equals("was updated")) {
+                    result.append("  - ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(2));
+                    result.append("\n");
+                    result.append("  + ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
+                } else if (entry.getKey().equals("unchanged")) {
+                    result.append("    ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
+                }
                 result.append("\n");
-                result.append("  + ").append(entry.getKey()).append(": ").append(entry.getValue().get(1));
-            } else if (entry.getValue().get(0).equals("unchanged")) {
-                result.append("    ").append(entry.getKey()).append(": ").append(entry.getValue().get(1));
             }
-            result.append("\n");
         }
         result.append("}");
 
