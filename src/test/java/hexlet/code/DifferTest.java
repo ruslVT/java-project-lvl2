@@ -10,13 +10,13 @@ import java.io.FileNotFoundException;
 
 public class DifferTest {
 
-    private String pathJson1 = "./src/test/resources/file1.json";
-    private String pathJson2 = "./src/test/resources/file2.json";
-    private String pathYml1 = "./src/test/resources/file1.yml";
-    private String pathYml2 = "./src/test/resources/file2.yml";
-    private String emptyFile = "./src/test/resources/emptyFile.json";
+    private final String pathJson1 = "./src/test/resources/file1.json";
+    private final String pathJson2 = "./src/test/resources/file2.json";
+    private final String pathYml1 = "./src/test/resources/file1.yml";
+    private final String pathYml2 = "./src/test/resources/file2.yml";
+    private final String emptyFile = "./src/test/resources/emptyFile.json";
 
-    private String expectedStylish = "{\n"
+    private final String expectedStylish = "{\n"
             + "    chars1: [a, b, c]\n"
             + "  - chars2: [d, e, f]\n"
             + "  + chars2: false\n"
@@ -42,7 +42,7 @@ public class DifferTest {
             + "  + setting3: none\n"
             + "}";
 
-    private String expectedPlain = "Property 'chars2' was updated. From [complex value] to false\n"
+    private final String expectedPlain = "Property 'chars2' was updated. From [complex value] to false\n"
             + "Property 'checked' was updated. From false to true\n"
             + "Property 'default' was updated. From null to [complex value]\n"
             + "Property 'id' was updated. From 45 to null\n"
@@ -56,13 +56,18 @@ public class DifferTest {
             + "Property 'setting2' was updated. From 200 to 300\n"
             + "Property 'setting3' was updated. From true to 'none'";
 
-    private String expectedJson = "{\"chars1\":[\"a\",\"b\",\"c\"],\"chars2\":false,\"checked\":true,"
+    private final String expectedJson = "{\"chars1\":[\"a\",\"b\",\"c\"],\"chars2\":false,\"checked\":true,"
             + "\"default\":[\"value1\",\"value2\"],\"id\":null,\"key2\":\"value2\",\"numbers1\":[1,2,3,4],"
             + "\"numbers2\":[22,33,44,55],\"numbers4\":[4,5,6],\"obj1\":{\"nestedKey\":\"value\","
             + "\"isNested\":true},\"setting1\":\"Another value\",\"setting2\":300,\"setting3\":\"none\"}";
 
     @Test
     public void testGenerate() throws Exception {
+
+        // without format argument
+        String actual = Differ.generate(pathJson1, pathJson2);
+        String expected = expectedStylish;
+        assertThat(actual).isEqualTo(expected);
 
         // Stylish format
         String actual1 = Differ.generate(pathJson1, pathJson2, "stylish");
