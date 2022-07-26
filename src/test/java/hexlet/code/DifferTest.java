@@ -24,8 +24,7 @@ public class DifferTest {
             + "  + checked: true\n"
             + "  - default: null\n"
             + "  + default: [value1, value2]\n"
-            + "  - id: 45\n"
-            + "  + id: null\n"
+            + "    id: null\n"
             + "  - key1: value1\n"
             + "  + key2: value2\n"
             + "    numbers1: [1, 2, 3, 4]\n"
@@ -45,7 +44,6 @@ public class DifferTest {
     private final String expectedPlain = "Property 'chars2' was updated. From [complex value] to false\n"
             + "Property 'checked' was updated. From false to true\n"
             + "Property 'default' was updated. From null to [complex value]\n"
-            + "Property 'id' was updated. From 45 to null\n"
             + "Property 'key1' was removed\n"
             + "Property 'key2' was added with value: 'value2'\n"
             + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
@@ -61,53 +59,52 @@ public class DifferTest {
             + "\"numbers2\":[22,33,44,55],\"numbers4\":[4,5,6],\"obj1\":{\"nestedKey\":\"value\","
             + "\"isNested\":true},\"setting1\":\"Another value\",\"setting2\":300,\"setting3\":\"none\"}";
 
+    // Stylish format
     @Test
-    public void testGenerate() throws Exception {
-
+    public void stylishFormat() throws Exception {
         // without format argument
         String actual = Differ.generate(pathJson1, pathJson2);
-        String expected = expectedStylish;
-        assertThat(actual).isEqualTo(expected);
+        assertThat(actual).isEqualTo(expectedStylish);
 
-        // Stylish format
         String actual1 = Differ.generate(pathJson1, pathJson2, "stylish");
-        String expected1 = expectedStylish;
-        assertThat(actual1).isEqualTo(expected1);
+        assertThat(actual1).isEqualTo(expectedStylish);
 
         String actual2 = Differ.generate(pathYml1, pathYml2, "stylish");
-        String expected2 = expectedStylish;
-        assertThat(actual2).isEqualTo(expected2);
+        assertThat(actual2).isEqualTo(expectedStylish);
 
         String actual3 = Differ.generate(pathJson1, pathYml2, "stylish");
-        String expected3 = expectedStylish;
-        assertThat(actual3).isEqualTo(expected3);
+        assertThat(actual3).isEqualTo(expectedStylish);
+    }
 
+    // Plain format
+    @Test
+    public void plainFormat() throws Exception {
         // Plain format
-        String actual4 = Differ.generate(pathJson1, pathJson2, "plain");
-        String expected4 = expectedPlain;
-        assertThat(actual4).isEqualTo(expected4);
+        String actual1 = Differ.generate(pathJson1, pathJson2, "plain");
+        assertThat(actual1).isEqualTo(expectedPlain);
 
-        String actual5 = Differ.generate(pathYml1, pathYml2, "plain");
-        String expected5 = expectedPlain;
-        assertThat(actual5).isEqualTo(expected5);
+        String actual2 = Differ.generate(pathYml1, pathYml2, "plain");
+        assertThat(actual2).isEqualTo(expectedPlain);
 
-        String actual6 = Differ.generate(pathJson1, pathYml2, "plain");
-        String expected6 = expectedPlain;
-        assertThat(actual6).isEqualTo(expected6);
+        String actual3 = Differ.generate(pathJson1, pathYml2, "plain");
+        assertThat(actual3).isEqualTo(expectedPlain);
+    }
 
-        // Json format
-        String actual7 = Differ.generate(pathJson1, pathJson2, "json");
-        String expected7 = expectedJson;
-        assertThat(actual7).isEqualTo(expected7);
+    // Json format
+    @Test
+    public void jsonFormat() throws Exception {
+        String actual1 = Differ.generate(pathJson1, pathJson2, "json");
+        assertThat(actual1).isEqualTo(expectedJson);
 
-        String actual8 = Differ.generate(pathYml1, pathYml2, "json");
-        String expected8 = expectedJson;
-        assertThat(actual8).isEqualTo(expected8);
+        String actual2 = Differ.generate(pathYml1, pathYml2, "json");
+        assertThat(actual2).isEqualTo(expectedJson);
 
-        String actual9 = Differ.generate(pathJson1, pathYml2, "json");
-        String expected9 = expectedJson;
-        assertThat(actual9).isEqualTo(expected9);
+        String actual3 = Differ.generate(pathJson1, pathYml2, "json");
+        assertThat(actual3).isEqualTo(expectedJson);
+    }
 
+    @Test
+    public void except() {
         // assert with empty file
         assertThrows(MismatchedInputException.class, () -> {
             String str1 = Differ.generate(pathJson1, emptyFile, "stylish");
@@ -129,6 +126,10 @@ public class DifferTest {
         // missing file
         assertThrows(FileNotFoundException.class, () -> {
             String str5 = Differ.generate(pathJson1, "./src/test/resources/file.json", "stylish");
+        });
+
+        assertThrows(RuntimeException.class, () -> {
+            String str5 = Differ.generate(pathJson1, "./src/test/resources/file2.jso", "stylish");
         });
     }
 
