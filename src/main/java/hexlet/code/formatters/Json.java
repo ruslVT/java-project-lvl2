@@ -8,20 +8,13 @@ import java.util.Map;
 
 public class Json {
 
-    public static String jsonFormat(List<Map<String, List<Object>>> diffList) throws Exception {
-        Map<String, Object> diffMap = new LinkedHashMap<>();
+    public static String format(List<Map<String, List<Object>>> diffList) throws Exception {
 
-        for (Map<String, List<Object>> map : diffList) {
-            for (Map.Entry<String, List<Object>> entry : map.entrySet()) {
-                if (entry.getKey().equals("added")
-                        || entry.getKey().equals("was updated")
-                        || entry.getKey().equals("unchanged")) {
-                    diffMap.put(entry.getValue().get(0).toString(), entry.getValue().get(1));
-                }
-            }
-        }
-
-        return new ObjectMapper().writeValueAsString(diffMap);
+        return new ObjectMapper().writeValueAsString(diffList
+                .stream()
+                .filter(map -> !map.containsKey("removed"))
+                .flatMap(map -> map.values().stream())
+                .collect(LinkedHashMap::new, (m, k) -> m.put(k.get(0), k.get(1)), LinkedHashMap::putAll));
     }
 
 }

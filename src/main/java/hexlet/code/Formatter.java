@@ -12,9 +12,9 @@ public class Formatter {
     public static String format(List<Map<String, List<Object>>> diffList, String format) throws Exception {
 
         return switch (format) {
-            case "stylish" -> Stylish.stylishFormat(diffList);
-            case "plain" -> Plain.plainFormat(diffList);
-            case "json" -> Json.jsonFormat(diffList);
+            case "stylish" -> Stylish.format(diffList);
+            case "plain" -> Plain.format(diffList);
+            case "json" -> Json.format(diffList);
             default -> throw new RuntimeException("incorrect format: " + format);
         };
     }

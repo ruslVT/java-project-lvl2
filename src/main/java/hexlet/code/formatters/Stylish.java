@@ -5,21 +5,28 @@ import java.util.Map;
 
 public class Stylish {
 
-    public static String stylishFormat(List<Map<String, List<Object>>> diffList) {
+    public static String format(List<Map<String, List<Object>>> diffList) {
         StringBuilder result = new StringBuilder("{\n");
 
         for (Map<String, List<Object>> map : diffList) {
             for (Map.Entry<String, List<Object>> entry : map.entrySet()) {
-                if (entry.getKey().equals("added")) {
-                    result.append("  + ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
-                } else if (entry.getKey().equals("removed")) {
-                    result.append("  - ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
-                } else if (entry.getKey().equals("was updated")) {
-                    result.append("  - ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(2));
-                    result.append("\n");
-                    result.append("  + ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
-                } else if (entry.getKey().equals("unchanged")) {
-                    result.append("    ").append(entry.getValue().get(0)).append(": ").append(entry.getValue().get(1));
+                switch (entry.getKey()) {
+                    case "added" ->
+                            result.append("  + ").append(entry.getValue().get(0)).append(": ")
+                                    .append(entry.getValue().get(1));
+                    case "removed" ->
+                            result.append("  - ").append(entry.getValue().get(0)).append(": ")
+                                    .append(entry.getValue().get(1));
+                    case "was updated" -> {
+                        result.append("  - ").append(entry.getValue().get(0)).append(": ")
+                                .append(entry.getValue().get(2)).append("\n");
+                        result.append("  + ").append(entry.getValue().get(0)).append(": ")
+                                .append(entry.getValue().get(1));
+                    }
+                    case "unchanged" ->
+                            result.append("    ").append(entry.getValue().get(0)).append(": ")
+                                    .append(entry.getValue().get(1));
+                    default -> { }
                 }
                 result.append("\n");
             }
