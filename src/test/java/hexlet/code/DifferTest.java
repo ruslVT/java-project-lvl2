@@ -36,12 +36,9 @@ public class DifferTest {
                 .trim();
     }
 
-    public DifferTest() throws IOException {
-    }
-
     // Stylish format
     @Test
-    public void stylishFormat() throws Exception {
+    public void testStylishFormat() throws Exception {
         // without format argument
         String actual = Differ.generate(pathJson1, pathJson2);
         assertThat(actual).isEqualTo(expectedStylish);
@@ -58,7 +55,7 @@ public class DifferTest {
 
     // Plain format
     @Test
-    public void plainFormat() throws Exception {
+    public void testPlainFormat() throws Exception {
         // Plain format
         String actual1 = Differ.generate(pathJson1, pathJson2, "plain");
         assertThat(actual1).isEqualTo(expectedPlain);
@@ -72,7 +69,7 @@ public class DifferTest {
 
     // Json format
     @Test
-    public void jsonFormat() throws Exception {
+    public void testJsonFormat() throws Exception {
         String actual1 = Differ.generate(pathJson1, pathJson2, "json");
         assertThat(actual1).isEqualTo(expectedJson);
 
@@ -84,7 +81,7 @@ public class DifferTest {
     }
 
     @Test
-    public void except() {
+    public void testExcept() {
         // assert with empty file
         assertThrows(MismatchedInputException.class, () -> {
             String str1 = Differ.generate(pathJson1, emptyFile, "stylish");
@@ -117,5 +114,4 @@ public class DifferTest {
         });
 
     }
-
 }
