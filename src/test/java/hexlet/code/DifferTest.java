@@ -3,12 +3,14 @@ package hexlet.code;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 
 public class DifferTest {
@@ -18,15 +20,21 @@ public class DifferTest {
     private final String pathYml1 = "./src/test/resources/file1.yml";
     private final String pathYml2 = "./src/test/resources/file2.yml";
     private final String emptyFile = "./src/test/resources/emptyFile.json";
+    private static String expectedStylish;
+    private static String expectedPlain;
+    private static String expectedJson;
 
-    private final String expectedStylish = Files.readString(Paths.get("./src/test/resources/expectedStylish.txt"))
-            .trim();
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+        expectedStylish = Files.readString(Paths.get("./src/test/resources/expectedStylish.txt"))
+                .trim();
 
-    private final String expectedPlain = Files.readString(Paths.get("./src/test/resources/expectedPlain.txt"))
-            .trim();
+        expectedPlain = Files.readString(Paths.get("./src/test/resources/expectedPlain.txt"))
+                .trim();
 
-    private final String expectedJson = Files.readString(Paths.get("./src/test/resources/expectedJson.txt"))
-            .trim();
+        expectedJson = Files.readString(Paths.get("./src/test/resources/expectedJson.txt"))
+                .trim();
+    }
 
     public DifferTest() throws IOException {
     }
@@ -96,12 +104,12 @@ public class DifferTest {
         });
 
         // missing file
-        assertThrows(FileNotFoundException.class, () -> {
+        assertThrows(NoSuchFileException.class, () -> {
             String str5 = Differ.generate(pathJson1, "./src/test/resources/file.json", "stylish");
         });
 
-        assertThrows(RuntimeException.class, () -> {
-            String str5 = Differ.generate(pathJson1, "./src/test/resources/file2.jso", "stylish");
+        assertThrows(JsonParseException.class, () -> {
+            String str7 = Differ.generate(pathJson1, "./src/test/resources/fake.json", "stylish");
         });
 
     }
