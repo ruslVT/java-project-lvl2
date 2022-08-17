@@ -108,6 +108,10 @@ public class DifferTest {
             String str5 = Differ.generate(pathJson1, "./src/test/resources/file.json", "stylish");
         });
 
+        assertThrows(RuntimeException.class, () -> {
+            String str6 = Differ.generate(pathJson1, "./src/test/resources/file.wrong", "stylish");
+        });
+
         assertThrows(JsonParseException.class, () -> {
             String str7 = Differ.generate(pathJson1, "./src/test/resources/fake.json", "stylish");
         });
